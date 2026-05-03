@@ -481,3 +481,70 @@ window.onload = function() {
   setupCanvas();
   drawEmptyForest();
 };
+const responses = {
+  stress: [
+    "I hear you… things feel heavy right now. Take a slow breath with me.",
+    "It's okay to feel overwhelmed. You're not alone in this.",
+    "Let's slow things down. One small step at a time."
+  ],
+  sad: [
+    "I'm here with you. You don’t have to go through this alone.",
+    "It’s okay to feel this way sometimes. It will pass.",
+    "Tell me more… I’m listening."
+  ],
+  motivation: [
+    "You’ve come this far — don’t stop now.",
+    "Small progress is still progress.",
+    "You are capable of more than you think."
+  ],
+  default: [
+    "That’s interesting… tell me more.",
+    "I understand. Go on.",
+    "I’m here for you."
+  ]
+};
+function detectMood(text) {
+  text = text.toLowerCase();
+
+  if (text.includes("stress") || text.includes("tired") || text.includes("pressure")) {
+    return "stress";
+  }
+
+  if (text.includes("sad") || text.includes("lonely") || text.includes("cry")) {
+    return "sad";
+  }
+
+  if (text.includes("motivate") || text.includes("goal") || text.includes("success")) {
+    return "motivation";
+  }
+
+  return "default";
+}
+function getAIResponse(userText) {
+  const mood = detectMood(userText);
+  const list = responses[mood];
+  return list[Math.floor(Math.random() * list.length)];
+}
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.rate = 1;
+  speech.pitch = 1;
+  speech.lang = "en-US";
+  window.speechSynthesis.speak(speech);
+}
+function handleUserInput(text) {
+  const reply = getAIResponse(text);
+
+  console.log("User:", text);
+  console.log("AI:", reply);
+
+  speak(reply);
+}
+function handleUserInput(text) {
+  setTimeout(() => {
+    const reply = getAIResponse(text);
+    speak(reply);
+  }, 1000 + Math.random() * 2000);
+}
+speech.rate = 0.9; // calm
+speech.rate = 1.2; // energetic
