@@ -3,18 +3,112 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Nova — AI Companion</title>
+  <title>Nova - AI Companion</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="root"></div>
 
-  <!-- React + Babel (for running locally without a build step) -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- ── LOGIN PAGE ── -->
+  <div id="loginPage">
+    <div class="login-box">
+      <h1>✨ Nova</h1>
+      <p>Your AI Companion</p>
 
-  <!-- App -->
-  <script type="text/babel" src="app.js"></script>
+      <div class="tab-row">
+        <button id="loginTab" class="tab active" onclick="switchTab('login')">Sign In</button>
+        <button id="registerTab" class="tab" onclick="switchTab('register')">Register</button>
+      </div>
+
+      <input type="hidden" id="currentTab" value="login" />
+
+      <input type="text" id="usernameInput" placeholder="Username" />
+      <input type="password" id="passwordInput" placeholder="Password" />
+      <p id="authMsg"></p>
+      <button id="authBtn" onclick="doAuth()">Sign In</button>
+    </div>
+  </div>
+
+  <!-- ── MAIN PAGE ── -->
+  <div id="mainPage" style="display:none;">
+
+    <!-- Header -->
+    <div class="header">
+      <span>✨ Nova</span>
+      <span id="welcomeText"></span>
+      <button onclick="signOut()">Sign Out</button>
+    </div>
+
+    <!-- Tab Buttons -->
+    <div class="main-tabs">
+      <button id="tabChat"  class="main-tab active" onclick="switchMainTab('chat')">💬 Chat</button>
+      <button id="tabDraw"  class="main-tab"        onclick="switchMainTab('draw')">🎨 Draw</button>
+      <button id="tabStorm" class="main-tab"        onclick="switchMainTab('storm')">⛈ Storm</button>
+    </div>
+
+    <!-- ── CHAT SECTION ── -->
+    <div id="chatSection">
+      <div class="nova-face">🤖</div>
+      <p id="novaStatus">Nova is here for you</p>
+
+      <div id="chatBox"></div>
+
+      <div class="quick-btns">
+        <button onclick="quickSend('I am feeling stressed')">Stressed 😤</button>
+        <button onclick="quickSend('I am feeling lonely')">Lonely 💙</button>
+        <button onclick="quickSend('I am anxious')">Anxious 😟</button>
+        <button onclick="quickSend('I am happy today')">Happy 😊</button>
+      </div>
+
+      <div class="input-row">
+        <input type="text" id="chatInput" placeholder="Talk to Nova..." onkeydown="checkEnter(event)" />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+
+      <button id="voiceBtn" onclick="toggleVoice()">Voice ON</button>
+    </div>
+
+    <!-- ── DRAW SECTION ── -->
+    <div id="drawSection" style="display:none;">
+      <div class="draw-toolbar">
+        <span>Color:</span>
+        <div class="color-dot" style="background:#ffffff;" onclick="setColor('#ffffff')"></div>
+        <div class="color-dot" style="background:#E24B4A;" onclick="setColor('#E24B4A')"></div>
+        <div class="color-dot" style="background:#F5C518;" onclick="setColor('#F5C518')"></div>
+        <div class="color-dot" style="background:#1D9E75;" onclick="setColor('#1D9E75')"></div>
+        <div class="color-dot" style="background:#2196F3;" onclick="setColor('#2196F3')"></div>
+        <div class="color-dot" style="background:#7F77DD;" onclick="setColor('#7F77DD')"></div>
+        <div class="color-dot" style="background:#E91E8C;" onclick="setColor('#E91E8C')"></div>
+        <div class="color-dot" style="background:#000000;" onclick="setColor('#000000')"></div>
+        <input type="color" onchange="setColor(this.value)" title="Custom color" />
+
+        <span>Size:</span>
+        <input type="range" min="1" max="40" value="6" oninput="setSize(this.value)" />
+        <span id="sizeLabel">6px</span>
+
+        <button onclick="clearCanvas()">🗑 Clear</button>
+        <button onclick="saveDrawing()">💾 Save</button>
+      </div>
+
+      <canvas id="drawCanvas"></canvas>
+    </div>
+
+    <!-- ── STORM SECTION ── -->
+    <div id="stormSection" style="display:none;">
+      <canvas id="stormCanvas"></canvas>
+
+      <div class="storm-controls">
+        <button id="stormBtn" onclick="toggleStorm()">⛈ Start Storm</button>
+        <div>
+          <label>🌧 Rain Volume: <span id="rainVolLabel">70%</span></label>
+          <input type="range" min="0" max="1" step="0.01" value="0.7" oninput="setRainVolume(this.value)" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Your JS file -->
+  <script src="app.js"></script>
+
 </body>
 </html>
