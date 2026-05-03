@@ -481,3 +481,4 @@ window.onload = function() {
   setupCanvas();
   drawEmptyForest();
 };
+var API_KEY = "hf_oFCCRGdPFHsRiKLXdZSEpUQqCRnAMB";
